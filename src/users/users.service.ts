@@ -3,13 +3,14 @@ import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
+import { EmailService } from 'src/email/email.service';
 
 
 
 @Injectable()
 export class UsersService {
 
-     constructor (@InjectRepository(User) private userRepository : Repository<User>){
+     constructor (@InjectRepository(User) private userRepository : Repository<User> , private emailService : EmailService ) {
             
         }
 
@@ -18,10 +19,14 @@ export class UsersService {
             const user = new User()
              user.email = userData.email
              user.name = userData.email.split('@')[0]
-
-            await this.userRepository.save(user)
-           
+             user.handle = user.name
+             user.registrationToken = crypto.randomUUID() // génère un token aléatoire pour la validation de l'email
             
+            await this.userRepository.save(user)
+
+            await this.emailService.sendSingUpEmail(user.email , user.registrationToken )
+            
+                      
            
          }
 }

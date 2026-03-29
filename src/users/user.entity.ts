@@ -8,8 +8,13 @@ export class User {
     name : string ;
     @Column()
     email : string ;
+    @Column()
+    handle : string ;
     @Column({nullable: true})
     image : string ;
-
+    @Column({nullable: true})
+    registrationToken : string ;
+    @Column({nullable: true})
+    loginToken : string ;
 
 }
