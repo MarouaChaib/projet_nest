@@ -5,11 +5,12 @@ import { UsersController } from './users.controller';
 import { User } from './user.entity';
 
 import { EmailService } from 'src/email/email.service';
+import { EmailModule } from 'src/email/email.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]), //  injection du repository
-    EmailService 
+    EmailModule
   ],
   controllers: [UsersController],
   providers: [UsersService],
