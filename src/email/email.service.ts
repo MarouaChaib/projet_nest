@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 
 
@@ -6,13 +7,13 @@ import * as nodemailer from 'nodemailer';
 export class EmailService {
     private transporter: nodemailer.Transporter;
 
-    constructor() {
+    constructor(private configService: ConfigService) {
          this.transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
-    port: 587,
+    host: this.configService.get<string>('EMAIL_HOST'),
+    port: this.configService.get<number>('EMAIL_PORT'),
     auth: {
-        user: 'levi.hahn2@ethereal.email',
-        pass: 'hUpgDtVR6P16YYUQ5p'
+        user: this.configService.get<string>('EMAIL_USERNAME'),
+        pass: this.configService.get<string>('EMAIL_PASSWORD')
     }
 });
     }
@@ -23,7 +24,7 @@ export class EmailService {
             subject : "welcome to our blog",
             html : `<h1>welcome to our blog</h1>
             <p>please click on the following link to verify your email</p>
-            <a href="http://localhost:3000/users/verify-email?token=${token}">Verify Email</a>
+            <a href="${this.configService.get<string>('CLIENT_HOST')}/users/verify-email?token=${token}">Verify Email</a>
             `
         })
     }
