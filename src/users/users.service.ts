@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { EmailService } from 'src/email/email.service';
-
+import { generateUnitValues } from 'src/shared';
 
 
 @Injectable()
@@ -20,13 +20,18 @@ export class UsersService {
              user.email = userData.email
              user.name = userData.email.split('@')[0]
              user.handle = user.name
-             user.registrationToken = crypto.randomUUID() // génère un token aléatoire pour la validation de l'email
+             const handleInDb = await this.userRepository.findOneBy({handle : user.handle})
+               if(handleInDb){
+                 user.handle = user.name+generateUnitValues(true) // génère une valeur unique pour le handle si celui-ci existe déjà
+               }
+            user.registrationToken = generateUnitValues() // génère un token aléatoire pour la validation de l'email
             
-            await this.userRepository.save(user)
-
-            await this.emailService.sendSingUpEmail(user.email , user.registrationToken )
-            
-                      
-           
+           try{ await this.userRepository.save(user)
+              await this.emailService.sendSingUpEmail(user.email , user.registrationToken )
+           }catch(error){
+            console.error('Error creating user:', error);
+            throw new Error('Failed to create user');
+           }
+ 
          }
 }
