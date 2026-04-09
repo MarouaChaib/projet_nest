@@ -4,7 +4,6 @@ import { UsersModule } from './users/users.module';
 import { EmailModule } from './email/email.module';
 import { ConfigModule } from '@nestjs/config';
 import { dataBaseModuleOptions } from './config/configuration-database';
-import { AuthController } from './auth/auth.controller';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
@@ -18,6 +17,5 @@ import { AuthModule } from './auth/auth.module';
     EmailModule,
     AuthModule,
   ],
-  controllers: [AuthController],
 })
 export class AppModule {}
