@@ -4,6 +4,7 @@ import { UsersModule } from './users/users.module';
 import { EmailModule } from './email/email.module';
 import { ConfigModule } from '@nestjs/config';
 import { dataBaseModuleOptions } from './config/configuration-database';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { dataBaseModuleOptions } from './config/configuration-database';
     TypeOrmModule.forRootAsync(dataBaseModuleOptions),
     UsersModule,
     EmailModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
