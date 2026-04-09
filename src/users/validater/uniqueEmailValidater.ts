@@ -1,8 +1,8 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { ValidationArguments, ValidatorConstraintInterface } from "class-validator";
+import { ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from "class-validator";
 import { User } from "../user.entity";
 import { Repository } from "typeorm";
-
+@ValidatorConstraint({ name: 'UniqueEmailValidator', async: true })
 export class UniqueEmailValidator implements ValidatorConstraintInterface{
     constructor(@InjectRepository(User) private userRepository : Repository<User>){}
     async validate(value: string): Promise<boolean> {
@@ -10,7 +10,7 @@ export class UniqueEmailValidator implements ValidatorConstraintInterface{
         return !email
     }
     defaultMessage?(validationArguments?: ValidationArguments): string {
-        throw new Error("Method not implemented.");
+        return 'email $value already exists. Please choose another email.';
     }
     
 }
