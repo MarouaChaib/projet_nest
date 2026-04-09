@@ -1,3 +1,5 @@
+import { QueryRunner } from 'typeorm';
+import { DataSource } from 'typeorm';
 import { Body, Injectable } from '@nestjs/common';
 import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -8,7 +10,7 @@ import { generateUnitValues } from 'src/shared';
 //service garanti la logique métier
 @Injectable()
 export class UsersService {
-   constructor (@InjectRepository(User) private userRepository : Repository<User> , private emailService : EmailService ) { }
+   constructor (@InjectRepository(User) private userRepository : Repository<User> , private emailService : EmailService , private dataSource : DataSource) { }
    async createUser (@Body() userData : CreateUserDto ) : Promise<void>{
       const user = new User()
       user.email = userData.email
@@ -19,10 +21,15 @@ export class UsersService {
             user.handle = user.name+generateUnitValues(true) // génère une valeur unique pour le handle si celui-ci existe déjà
          }
       user.registrationToken = generateUnitValues() // génère un token aléatoire pour la validation de l'email
+      const queryRunner = this.dataSource.createQueryRunner(); // crée un query runner pour gérer la transaction
       try{ 
-         await this.userRepository.save(user)
+         //await this.userRepository.save(user)
+         await queryRunner.startTransaction() // démarre la transaction
+         await queryRunner.manager.save(user) // sauvegarde l'utilisateur dans la base de données locale
          await this.emailService.sendSingUpEmail(user.email , user.registrationToken ) //sendSingUpEmail est une méthode du service EmailService qui envoie un email de confirmation d'inscription à l'utilisateur avec le token de validation.
+         await queryRunner.commitTransaction() // valide la transaction si tout s'est bien passé
       }catch(error){
+         await queryRunner.rollbackTransaction() // annule la transaction en cas d'erreur
          console.error('Error creating user:', error);
          throw new Error('Failed to create user');
       }
