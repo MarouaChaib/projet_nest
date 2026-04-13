@@ -16,6 +16,7 @@ export class EmailService {
         });
     }
     async sendSingUpEmail(email: string, token: string) { 
+        console.log(token , 'token');
         await this.transporter.sendMail({
             from : "blog wissam" , 
             to : email,

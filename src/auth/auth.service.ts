@@ -1,11 +1,12 @@
 import { UsersService } from './../users/users.service';
-import { Token } from 'src/auth/token.entity';
+
 import { Injectable } from '@nestjs/common';
 import { AuthRequestDto } from './dto/auth-request.dto';
 import { AuthUserDto } from './dto/auth-user.dto';
 import { generateUnitValues } from 'src/shared';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Token } from './token.entity';
 
 
 @Injectable()
@@ -32,11 +33,15 @@ export class AuthService {
             handle: user.handle,
             email : user.email,
             image : user.image},
-            
+
          token : token.token
       }
          }
 
+    }
+
+    async logout(token : string) {
+      await this.tokenRepository.delete({token}) // supprime le token d'authentification de la base de données pour invalider la session de l'utilisateur
     }
 }
 
