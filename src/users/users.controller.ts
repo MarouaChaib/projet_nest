@@ -1,12 +1,10 @@
 import { UsersService } from './users.service';
 import { BadRequestException, Body, Controller, Post, UseFilters, UsePipes, ValidationPipe } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './user.entity';
-import { Repository } from 'typeorm';
+
 import { CreateUserDto } from './dto/create-user.dto';
 import { generecResponse } from 'src/shared';
 import { GenericExceptionFilter } from 'src/shared/exceptions/exception-filter';
-import { pipe } from 'rxjs';
+
 //controller garanti la logique routing 
 @Controller('users')
 export class UsersController {

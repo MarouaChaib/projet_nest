@@ -6,4 +6,6 @@ export class AuthRequestDto {
     token!: string;
     @IsEnum(Operation , {message: "Invalid operation"}) // Validation pour s'assurer que la valeur est l'une des valeurs définies dans l'énumération Operation
     operation!: Operation;
+
+    
 }

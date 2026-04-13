@@ -1,7 +1,9 @@
-import { QueryRunner } from 'typeorm';
+import { User } from 'src/users/user.entity';
+import { Operation } from 'src/shared';
+import { FindOptionsWhere, QueryRunner } from 'typeorm';
 import { DataSource } from 'typeorm';
 import { Body, Injectable } from '@nestjs/common';
-import { User } from './user.entity';
+
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -34,4 +36,25 @@ export class UsersService {
          throw new Error('Failed to create user');
       }
    }
+
+   async validateTonek (token : string , operation : Operation)  {
+      const userWhere : FindOptionsWhere<User> = {};
+      if ( operation === Operation.REGISTER) {
+         userWhere.registrationToken = token
+      }
+   const user = await this.userRepository.findOneBy(userWhere) // vérifie si le token de validation correspond à un utilisateur dans la base de données
+
+      if (!user) {
+         throw new Error('Invalid token') // lance une erreur si le token est invalide
+      }
+
+      user.registrationToken = ''// met à null le token de validation pour indiquer que l'email a été validé
+
+      await this.userRepository.save(user) // sauvegarde les modifications de l'utilisateur dans la base de données
+
+      return user;
+
+
+   }
+   
 }

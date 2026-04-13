@@ -7,8 +7,10 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
   @Post()
   async handleAuthRequest(@Body() authRequest: AuthRequestDto) {
-    await this.authService.handleAuthRequest(
+    
+    const result = await this.authService.handleAuthRequest(
       authRequest
     );
+    return 
   }
 }
