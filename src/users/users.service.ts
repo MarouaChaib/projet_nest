@@ -9,9 +9,11 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { EmailService } from 'src/email/email.service';
 import { generateUnitValues } from 'src/shared';
+import { loginDto } from 'src/auth/dto/login.dto';
 //service garanti la logique métier
 @Injectable()
 export class UsersService {
+   [x: string]: any;
    constructor (@InjectRepository(User) private userRepository : Repository<User> , private emailService : EmailService , private dataSource : DataSource) { }
    async createUser (@Body() userData : CreateUserDto ) : Promise<void>{
       const user = new User()
@@ -37,7 +39,7 @@ export class UsersService {
       }
    }
 
-   async validateTonek (token : string , operation : Operation)  {
+   async validateToken (token : string , operation : Operation)  {
       const userWhere : FindOptionsWhere<User> = {};
       if ( operation === Operation.REGISTER) {
          userWhere.registrationToken = token
@@ -56,5 +58,20 @@ export class UsersService {
 
 
    }
+
+async findByEmail(email : string) : Promise<User | null> {
+   return await this.userRepository.findOneBy({email}) // recherche un utilisateur dans la base de données en fonction de son adresse email
+
+   
+}
+
+async login(email: loginDto) {
+
+   await this.UsersService.generateLoginToken(email.email)
+}
+
+
+
+   
    
 }

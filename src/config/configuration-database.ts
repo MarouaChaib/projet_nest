@@ -1,5 +1,6 @@
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
+import { Article } from 'src/article/article.entity';
 import { Token } from 'src/auth/token.entity';
 import { User } from 'src/users/user.entity';
 
@@ -11,7 +12,7 @@ export const dataBaseModuleOptions : TypeOrmModuleAsyncOptions = {
       type : 'sqlite',
       database : dbHost,
       synchronize : false, 
-      entities : [User , Token]
+      entities : [User , Token , Article ]
     }
   },
   inject : [ConfigService]

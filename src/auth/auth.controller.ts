@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { AuthRequestDto } from './dto/auth-request.dto';
 
 import type { Request, Response } from 'express';
+import { loginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -24,5 +25,14 @@ export class AuthController {
     res.clearCookie('auth_token') // supprime le cookie d'authentification du client pour terminer la session de l'utilisateur  
 
     return { message : 'Logged out successfully' }
+  }
+  @Post('login')
+  async login(
+    @Body()   email: loginDto 
+   
+  ) {
+    const result = await this.authService.login(email);
+  
+    return result;
   }
 }
