@@ -5,6 +5,8 @@ import { EmailModule } from './email/email.module';
 import { ConfigModule } from '@nestjs/config';
 import { dataBaseModuleOptions } from './config/configuration-database';
 import { AuthModule } from './auth/auth.module';
+import { ArticleModule } from './article/article.module';
+
 
 @Module({
   imports: [
@@ -16,6 +18,7 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     EmailModule,
     AuthModule,
+    ArticleModule,
   ],
 })
 export class AppModule {}

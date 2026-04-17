@@ -1,20 +1,23 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Token } from "src/auth/token.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 //la structure de la table user dans la BDD
 @Entity({name : 'user'}) //entity représente une table dans la base de données, le nom de la table est spécifié comme 'user'.
 export class User {
     @PrimaryGeneratedColumn()
-    id : number ;
+    id! : number ;
     @Column()
-    name : string ;
+    name! : string ;
     @Column()
-    email : string ;
+    email! : string ;
     @Column()
-    handle : string ;
+    handle! : string ;
     @Column({nullable: true})
-    image : string ;
+    image! : string ;
     @Column({nullable: true})
-    registrationToken : string ;
+    registrationToken! : string ;
     @Column({nullable: true})
-    loginToken : string ;
+    loginToken! : string ;
+    @OneToMany(() => Token, token => token.user)
+    tokens! : Token[]
 
 }
