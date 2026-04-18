@@ -67,7 +67,7 @@ export class AuthService {
       console.error('Error login user:', error);
       throw new Error('Failed to login user');
     }
-}
+ }
   async validateToken(token:string,operation:Operation){
   const userWhere:FindOptionsWhere<User>={}
   if (operation === Operationperation.REGISTER) {
@@ -92,7 +92,7 @@ if (!user) {
   }
    await this.userRepository.save(user) // sauvegarde les modifications de l'utilisateur dans la base de données
 
-      return user;
+  return user;
 
 
     
@@ -103,5 +103,5 @@ if (!user) {
 
     
 
-}
+
 
