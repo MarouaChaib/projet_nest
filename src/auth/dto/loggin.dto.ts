@@ -1,8 +1,6 @@
-import { IsEmail, Validate } from "class-validator";
-import { UniqueEmailValidator } from "../validater/uniqueEmailValidater";
-export class CreateUserDto {
+import { IsEmail } from "class-validator";
+export class LoginDto {
     @IsEmail({}, { message: 'email must be a valid email address' })
-    @Validate(UniqueEmailValidator)// Utilise le validateur personnalisé pour vérifier l'unicité de l'email
     email!: string; 
 }
 // dto data transfer object

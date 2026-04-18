@@ -1,24 +1,22 @@
-import { ArticleRequestDto } from './dto/article-request.dto';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Article } from './article.entity';
 import { Repository } from 'typeorm';
+import { Article } from './article.entity';
+import { ArticleRequestDto } from './dto/articleRequestDto';
 import { generateUnitValues } from 'src/shared';
 
 @Injectable()
 export class ArticleService {
     constructor(@InjectRepository(Article) private articleRepository: Repository<Article>) {}
-
-    async save(value : ArticleRequestDto) {
+    async save(value:ArticleRequestDto) {
         const article = new Article();
         article.title = value.title;
         article.content = value.content;
-        article.slug = encodeURIComponent( value.title.toLowerCase().replaceAll(' ', '-'))+'-'+ generateUnitValues(true); // Générer un slug à partir du titre;
+        article.image = value.image;
+        article.slug = encodeURIComponent(value.title.toLowerCase().replaceAll(' ', '-'))+ '-'+generateUnitValues(true)
+       // article.authorId = value.authorId ;
+       await this.articleRepository.save(article);
+       return{id : article.id}
+}
 
-        
-        article.autherId = value.autherId;
-         await this.articleRepository.save(article);
-        
-        return {id:article.id}
-    }
 }

@@ -12,7 +12,7 @@ export const dataBaseModuleOptions : TypeOrmModuleAsyncOptions = {
       type : 'sqlite',
       database : dbHost,
       synchronize : false, 
-      entities : [User , Token , Article ]
+      entities : [User, Token , Article],
     }
   },
   inject : [ConfigService]

@@ -16,7 +16,8 @@ export class EmailService {
         });
     }
     async sendSingUpEmail(email: string, token: string) { 
-        console.log(token , 'token');
+        console.log(token , "token");
+        
         await this.transporter.sendMail({
             from : "blog wissam" , 
             to : email,
@@ -24,6 +25,19 @@ export class EmailService {
             html : `<h1>welcome to our blog</h1>
             <p>please click on the following link to verify your email</p>
             <a href="${this.configService.get<string>('CLIENT_HOST')}/users/verify-email?token=${token}">Verify Email</a> 
+            `
+        })
+    }
+     async loginEmail(email: string, token: string) { 
+        console.log(token , "token");
+        
+        await this.transporter.sendMail({
+            from : "blog wissam" , 
+            to : email,
+            subject : "confirm your login",
+            html : `<h1>confirm your login</h1>
+            <p>please click on the following link to login</p>
+            <a href="${this.configService.get<string>('CLIENT_HOST')}/users/verify-email?token=${token}">signe in</a> 
             `
         })
     }

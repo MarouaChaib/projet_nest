@@ -1,8 +1,7 @@
-export class AuthUserDto {
-    id!: number;
-    name!: string;
-    email!: string;
-    handle!: string;
-
-    image!: string | null;
+export class AuthuserDto {
+    id! : number
+    name! : string
+    email! : string
+    handle! : string
+    image! : string 
 }

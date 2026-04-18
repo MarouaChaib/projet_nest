@@ -4,20 +4,20 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 @Entity({name : 'user'}) //entity représente une table dans la base de données, le nom de la table est spécifié comme 'user'.
 export class User {
     @PrimaryGeneratedColumn()
-    id!: number;
+    id! : number ;
     @Column()
-    name!: string;
+    name! : string ;
     @Column()
-    email!: string;
+    email! : string ;
     @Column()
-    handle!: string;
-    @Column({ nullable: true })
-    image!: string;
-    @Column({ nullable: true })
-    registrationToken!: string;
-    @Column({ nullable: true })
-    loginToken!: string;
+    handle! : string ;
+    @Column({nullable: true})
+    image! : string ;
+    @Column({nullable: true})
+    registrationToken! : string ;
+    @Column({nullable: true})
+    loginToken! : string ;
     @OneToMany(() => Token, token => token.user)
-    tokens!: Token[];
+    tokens! : Token[]
 
 }
