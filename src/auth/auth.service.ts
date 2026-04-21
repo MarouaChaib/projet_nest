@@ -48,12 +48,20 @@ export class AuthService {
       token: token.token,
     };
   }
-
   async logout(token: string) {
     await this.tokenRepository.delete({ token });
   }
   async login(email: LoginDto) {
     await this.usersService.generateLoginToken(email.email);
-
-}
-}
+  }
+  async validateUser(token: string): Promise<AuthuserDto | null> {
+    const tokenEntity = await this.tokenRepository.findOne({
+      where: { token },
+      relations: ['user'],
+    });
+    if (!tokenEntity) {
+      return null;
+    }
+    return tokenEntity.user;
+  }
+  }

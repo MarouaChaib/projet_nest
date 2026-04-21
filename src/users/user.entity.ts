@@ -1,3 +1,4 @@
+import { Article } from "src/article/article.entity";
 import { Token } from "src/auth/token.entity";
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 //la structure de la table user dans la BDD
@@ -19,5 +20,6 @@ export class User {
     loginToken! : string ;
     @OneToMany(() => Token, token => token.user)
     tokens! : Token[]
-
+    @OneToMany(() => Article, article => article.user)
+    articles! : Article[]
 }
