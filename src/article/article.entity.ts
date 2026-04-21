@@ -12,7 +12,7 @@ export class Article {
     content! : string;
     @Column({nullable: true})
     image! : string;
-    authorId! : number;
+    //authorId! : number;
     @CreateDateColumn({default: () => 'CURRENT_TIMESTAMP'})
     createdAt! : Date;
     @UpdateDateColumn({default: () => 'CURRENT_TIMESTAMP' , onUpdate: 'CURRENT_TIMESTAMP'}) 
