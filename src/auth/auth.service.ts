@@ -1,3 +1,4 @@
+import { Validate } from 'class-validator';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthRequestDto } from './dto/auth-request.dto';
 import { AuthuserDto } from './dto/auth-user.dto';
@@ -54,6 +55,18 @@ export class AuthService {
   }
   async login(email: LoginDto) {
     await this.usersService.generateLoginToken(email.email);
+
+}
+
+async ValidateUser(token: string) {
+    const tokenEntity = await this.tokenRepository.findOne({
+        where : {token},
+        relations : ['user']
+    })
+    if (!tokenEntity) {
+        return null;
+    }
+    return tokenEntity.user;
 
 }
 }

@@ -1,4 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { ArticleService } from './article.service';
+import { User } from "src/users/user.entity";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 @Entity({name : 'article'})
 export class Article {
     @PrimaryGeneratedColumn()
@@ -16,4 +18,6 @@ export class Article {
     createdAt! : Date;
     @UpdateDateColumn({default: () => 'CURRENT_TIMESTAMP' , onUpdate: 'CURRENT_TIMESTAMP'}) 
     updatedAt! : Date;
+    @ManyToOne(() => User, user => user.articles, { onDelete: 'CASCADE' })
+    user!: User;
 }
